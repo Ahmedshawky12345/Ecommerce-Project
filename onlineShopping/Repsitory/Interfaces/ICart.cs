@@ -8,6 +8,8 @@ namespace onlineShopping.Repsitory.Interfaces
         Task CreateCartAsync(Cart cart);
         Task DeleteCartItem(string userid, int productid);
         Task<Cart> CartExistsAsync(string userId);
-       
+        Task ClearCartAsync(string userId);
+
+
     }
 }

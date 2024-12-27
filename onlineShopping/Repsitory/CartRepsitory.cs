@@ -43,8 +43,18 @@ namespace onlineShopping.Repsitory
                  FirstOrDefaultAsync(key => key.userid == userId);
             return data;
         }
+        public async Task ClearCartAsync(string userId)
+        {
+            var cart = await GetCartByUserIdAsync(userId);
+            if (cart != null)
+            {
+                // Remove all cart items
+                cart.CartItems.Clear();
+                await context.SaveChangesAsync(); // Assuming you have an Update method to save changes
+            }
+        }
 
-       
+
 
     }
 }

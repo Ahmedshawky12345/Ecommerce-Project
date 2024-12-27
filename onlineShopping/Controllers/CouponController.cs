@@ -186,6 +186,35 @@ namespace onlineShopping.Controllers
 
 
         }
+        [HttpPost("RemoveCouponFromProduct")]
+        public async Task<IActionResult> RemoveCouponFromProduct(int productId)
+        {
+            var response = new GenralResponse<string>();
+
+            // Check if the product exists
+            var product = await repoproduct.GetByIdAsync(productId);
+            if (product == null)
+            {
+                response.Success = false;
+                response.Message = $"Product {productId} does not exist.";
+                return BadRequest(response);
+            }
+
+            // Check if the product has a coupon applied
+            if (product.CoupnId == null)
+            {
+                response.Success = false;
+                response.Message = $"Product {productId} does not have a coupon applied.";
+                return BadRequest(response);
+            }
+
+            // Remove the coupon from the product
+            await repocoupon.RemoveCouponFromProduct(productId);
+
+            response.Success = true;
+            response.Message = "Coupon successfully removed from the product.";
+            return Ok(response);
+        }
 
     }
 }

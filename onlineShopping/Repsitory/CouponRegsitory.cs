@@ -50,5 +50,30 @@ namespace onlineShopping.Repsitory
             context.coupons.Update(entity);
              context.SaveChangesAsync();
         }
+        public async Task RemoveCouponFromProduct(int productId)
+        {
+            var product = await context.products.FirstOrDefaultAsync(p => p.ProductId == productId);
+            if (product != null && product.CoupnId != null)
+            {
+                product.CoupnId = null; // Remove the coupon from the product
+                context.products.Update(product);
+                await context.SaveChangesAsync();
+            }
+        }
+
+        public async Task<Coupon> GetCouponByCodeAsync(string couponCode)
+        {
+            // Assuming Coupon entity is mapped to a Coupons table in your database
+            return await context.coupons
+                                 .FirstOrDefaultAsync(c => c.Code == couponCode);
+        }
+        public async Task<Product> GetCouponByProductIdAsync(int productId)
+        {
+            var product = await context.products
+                .Include(p => p.Coupon) // Eager load the associated coupon
+                .FirstOrDefaultAsync(p => p.ProductId == productId);
+
+            return product; // Return the associated coupon or null
+        }
     }
 }

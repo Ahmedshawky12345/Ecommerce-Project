@@ -92,5 +92,13 @@ namespace onlineShopping.Repsitory
                 Where(_quary => _quary.Name.Contains(quary) || _quary.Descrption.Contains(quary)).ToListAsync();
             return products;
         }
+
+        public async Task<List<Product>> GetProductsWithCouponsAsync(List<int> productIds)
+        {
+            return await context.products
+                .Where(p => productIds.Contains(p.ProductId))
+                .Include(p => p.Coupon) // Include coupon data
+                .ToListAsync();
+        }
     }
 }

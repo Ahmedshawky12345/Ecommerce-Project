@@ -10,5 +10,6 @@ namespace onlineShopping.Repsitory.Interfaces
         Task<IEnumerable<Product>> GetproductHasCoupon();
       Task<PagedResponse<Product>>  GetAllproductwithPagination(int pagenumber, int pageSize);
         Task<List<Product>> SearchProducts(string quary);
+        Task<List<Product>> GetProductsWithCouponsAsync(List<int> productIds);
     }
 }
